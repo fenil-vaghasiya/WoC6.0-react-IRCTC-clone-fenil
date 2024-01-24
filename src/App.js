@@ -5,6 +5,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { app } from './firebase';
 import { useEffect, useState } from 'react';
+import Nav from './components/Nav';
+import Profile from './components/Profile';
+import Footer from './components/Footer';
+import Search from './components/Search';
+import Home from './components/Home';
 
 const auth = getAuth(app);
 
@@ -34,10 +39,15 @@ function App() {
 
   return (
     <Router>
+      <Nav/>
       <Routes>
+        <Route path='/' element={<Home/>}/>
         <Route path='/signup' element={<SignUp/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/profile' element={<Profile/>}/>
+        <Route path='/search' element={<Search/>}/>
       </Routes>
+      <Footer/>
     </Router>
   );
 }

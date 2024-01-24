@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock } from '@fortawesome/free-solid-svg-icons'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { app } from '../firebase'
-import { toast } from 'react-toastify'
+import { ToastContainer,toast } from 'react-toastify'
 
 const auth = getAuth(app);
 
@@ -53,6 +53,7 @@ function Login() {
                 </div>
             </div>
         </div>
+        <ToastContainer/>
     </div>
   )
 }
