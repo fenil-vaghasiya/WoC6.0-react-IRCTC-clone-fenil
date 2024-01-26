@@ -10,6 +10,12 @@ import Profile from './components/Profile';
 import Footer from './components/Footer';
 import Search from './components/Search';
 import Home from './components/Home';
+import Payment from './components/Payment';
+import Addtobooklist from './components/Addtobooklist';
+import Booklist from './components/Booklist';
+import Bookinglist from './components/Bookinglist';
+import PaymentFooter from './components/PaymentFooter';
+import Expertise from './components/Expertise';
 
 const auth = getAuth(app);
 
@@ -46,6 +52,12 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/search' element={<Search/>}/>
+        <Route path='/payment' element={<Payment/>}/>
+        <Route path='/addtobooklist' element={<Addtobooklist/>}/>
+        <Route path='/booklist' element={<Booklist/>}/>
+        <Route path='/bookinglist' element={<Bookinglist/>}/>
+        <Route path='/paymentfooter' element={<PaymentFooter/>}/>
+        <Route path='/expertise' element={<Expertise/>}/>
       </Routes>
       <Footer/>
     </Router>
