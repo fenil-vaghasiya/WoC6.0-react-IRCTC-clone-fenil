@@ -2,23 +2,45 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock } from '@fortawesome/free-solid-svg-icons'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import { app } from '../firebase'
-import { ToastContainer,toast } from 'react-toastify'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { toast } from 'react-toastify'
+import { auth } from '../../firebase/FirebaseConfig'
+import { useNavigate } from 'react-router-dom'
 
-const auth = getAuth(app);
 
 function Login() {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
 
-    const signinUser=()=>{
-        signInWithEmailAndPassword(auth,email,password)
-            .then(value=>toast.success("Login successfull",{position:"top-center"}))
-            .catch(e=>{
-                let errorcode = e.code.split("auth/")[1];
-                toast.error(errorcode,{position:"top-center"});
-            })
+    const navigate = useNavigate();
+
+    const login = async()=>{
+        try {
+            const result = await signInWithEmailAndPassword(auth,email,password);
+            toast.success("Login Succesfull!",{
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+            localStorage.setItem('user',JSON.stringify(result));
+            navigate('/');
+        } catch (error) {
+            toast.error(error.code.split("auth/")[1],{
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+        }
     }
   return (
     <div className='sign-up'>
@@ -48,12 +70,11 @@ function Login() {
                 <div className='h-1/4 text-md w-5/6 mx-auto text-white flex flex-col'>
                     <button 
                         className='btn bg-blue-900 hover:bg-slate-500 text-white font-semibold'
-                        onClick={()=>signinUser()}>SIGN IN</button>
+                        onClick={login}>LOG IN</button>
                     <a href="/signup" className='underline underline-offset-2'>DON'T HAVE AN ACCOUNT? SIGN UP</a>
                 </div>
             </div>
         </div>
-        <ToastContainer/>
     </div>
   )
 }

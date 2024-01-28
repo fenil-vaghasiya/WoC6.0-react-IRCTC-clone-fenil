@@ -1,6 +1,6 @@
 import React from 'react'
 
-function PaymentFooter() {
+function Services() {
   return (
     <div>
         <div className='w-3/5 mx-auto flex flex-col gap-5 my-24'>
@@ -51,4 +51,4 @@ function PaymentFooter() {
   )
 }
 
-export default PaymentFooter
+export default Services
