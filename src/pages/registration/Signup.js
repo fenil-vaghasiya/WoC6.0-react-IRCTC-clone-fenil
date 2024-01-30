@@ -8,23 +8,33 @@ import 'react-toastify/dist/ReactToastify.css'
 import { auth, fireDB } from '../../firebase/FirebaseConfig'
 import { Timestamp, addDoc, collection } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
+import Layout from '../../components/layout/Layout'
 
 
 function Signup() {
-    const [name,setName]=useState("");
+    const [firstname,setFirstname]=useState("");
     const [email,setEmail]=useState("");
     const [password,setPassword]=useState("");
+    
 
     const navigate = useNavigate();
-    const signup = async()=>{
-        if(name === "" || email === "" || password === ""){
+    const signup = async(e)=>{
+        e.preventDefault();
+        if(firstname === "" || email === "" || password === ""){
             return toast.error("All fields are required")
         }
         try {
             const users = await createUserWithEmailAndPassword(auth,email,password);
             // For store in database
             const user = {
-                name:name,
+                firstname:firstname,
+                middlename:"",
+                lastname:"",
+                username:"",
+                phone:"",
+                dob:"",
+                gender:"",
+                state:"",
                 uid:users.user.uid,
                 email:users.user.email,
                 time:Timestamp.now()
@@ -42,7 +52,7 @@ function Signup() {
                 theme: "colored",
               })
             navigate('/');
-            setName("");
+            setFirstname("");
             setEmail("");
             setPassword("");
         } catch (error) {
@@ -60,6 +70,7 @@ function Signup() {
     }
    
   return (
+    <Layout>
     <div className='sign-up'>
         <div className='z-1 h-screen backdrop-blur-[3px] bg-slate-600/30 w-full flex justify-center items-center'>
             <div className='w-1/3 h-4/6 rounded-3xl backdrop-blur-2xl bg-white/30'>
@@ -73,8 +84,8 @@ function Signup() {
                             type="name" 
                             placeholder='Enter Your name here' 
                             className='outline-none border-4 border-b-black border-none rounded-lg py-2 pl-2'
-                            value={name}
-                            onChange={(e)=>setName(e.target.value)} />
+                            value={firstname}
+                            onChange={(e)=>setFirstname(e.target.value)} />
                     <label htmlFor="email">Email address*</label>
                     <input 
                         type="email" 
@@ -100,6 +111,7 @@ function Signup() {
             </div>
         </div>
     </div>
+    </Layout>
   )
 }
 

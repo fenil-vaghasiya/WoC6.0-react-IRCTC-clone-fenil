@@ -1,7 +1,41 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Layout from '../../components/layout/Layout'
+import { collection, getDoc, getDocs, query, where } from 'firebase/firestore';
+import { auth, fireDB } from '../../firebase/FirebaseConfig';
 
 function Profile() {
+    
+    function GetCurrentUser(){
+        const [user,setUser] = useState('');
+        const userCollectionRef = collection(fireDB,"users");
+
+        useEffect(()=>{
+            auth.onAuthStateChanged((userlogged)=>{
+                if(userlogged){
+                    const getUsers =async()=>{
+                        const q = query(collection(fireDB,"users"),where("uid","==",userlogged.uid));
+                        // console.log("this is profile run",q);
+                        const data = await getDocs(q);
+                        setUser(data.docs.map((doc)=>({...doc.data(),id:doc.id})));
+                    }
+                    getUsers();
+                }else{
+                    setUser(null);
+                }
+            })
+        },[])
+        return user;
+    }
+
+    const loggeduser = GetCurrentUser();
+    const currUser = loggeduser[0];
+    // console.log(currUser);
+
+    const logout = ()=>{
+        localStorage.clear('user');
+        window.location.href = '/login';
+    }
+    
   return (
     <Layout>
         <div className='h-full gap-2'>
@@ -20,7 +54,7 @@ function Profile() {
                 <div className='w-3/5 flex flex-col p-3 shadow-lg h-full rounded-lg'>
                     <h1 className='text-2xl font-bold'>Profile</h1>
                     <form action="" className='flex flex-col gap-3 my-2 relative'>
-                        <input type="text" placeholder='first name' v-model="email" className='border-1 border-gray-500 p-2 rounded-md outline-none'/>
+                        <input type="text" placeholder='first name' value={loggeduser.firstname} v-model="email" className='border-1 border-gray-500 p-2 rounded-md outline-none'/>
                         <input type="text" placeholder='middle name' className='border-1 border-gray-500 p-2 rounded-md outline-none'/>
                         <input type="text" placeholder='last name' className='border-1 border-gray-500 p-2 rounded-md outline-none'/>
                         <input type="text" placeholder='username' className='border-1 border-gray-500 p-2 rounded-md outline-none'/>
@@ -54,7 +88,7 @@ function Profile() {
                 </div>
             </div>
             <div className='flex justify-center pt-20 pb-5'>
-                <button className='btn btn-danger px-4'>Log out</button>
+                <button className='btn btn-danger px-4' onClick={logout}>Log out</button>
             </div>
         </div>
     </Layout>
