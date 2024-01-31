@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { auth, fireDB } from '../../firebase/FirebaseConfig';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { FaRegUserCircle } from "react-icons/fa";
 function Nav() {
   
   const user = JSON.parse(localStorage.getItem('user'));
@@ -30,8 +31,8 @@ function Nav() {
     return user;
 }
 
-const loggeduser = GetCurrentUser();
-const currUser = loggeduser[0];
+// const loggeduser = GetCurrentUser();
+// const currUser = loggeduser[0];
   // const q = query(collection(fireDB,'users'));
   // let userName = "";
   // const data = onSnapshot(q,(QuerySnapshot)=>{
@@ -51,14 +52,14 @@ const currUser = loggeduser[0];
     <div>
         <div className='flex bg-blue-900 text-xl h-20 items-center text-white'>
             <div className='col-2 pl-5'>
-                <h1 className='font-bold text-2xl font-sans'>{currUser ? `Hello ${currUser.firstname}...` : "Welcome To IRCTC!"}</h1>
+                <h1 className='font-bold text-2xl font-sans'>Hello</h1>
             </div>
-            <div className='col-10 flex justify-end gap-5 pr-7'>
+            <div className='col-10 flex justify-end gap-5 pr-7 items-center'>
                 <a href="/">Home</a>
                 <a href="/booklist">Booklist</a>
                 <a href="/about">AboutUs</a>
                 {user ? <a href="" onClick={logout}>Log out</a>: ""}
-                <a href="/profile"><FontAwesomeIcon icon={faUser} /></a>
+                <a href="/profile" className='text-3xl'><FaRegUserCircle /></a>
                 {user ? "" : <a href='/signup'>Sign Up</a>}
             </div>
         </div>

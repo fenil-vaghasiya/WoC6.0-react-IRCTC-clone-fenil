@@ -1,21 +1,88 @@
+import { doc, setDoc } from 'firebase/firestore';
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
+import { fireDB } from '../../firebase/FirebaseConfig';
 
-function Bookingticket() {
+const data1 = {
+        "train_number": "12951",
+        "train_name": "Rajdhani Express",
+        "run_days": [
+          "Tue",
+          "Thu",
+          "Fri",
+          "Sun"
+        ],
+        "train_src": "MMCT",
+        "train_dstn": "NDLS",
+        "from_std": "17:24",
+        "from_sta": "17:22",
+        "local_train_from_sta": 1042,
+        "to_sta": "08:32",
+        "to_std": "08:32",
+        "from_day": 0,
+        "to_day": 1,
+        "d_day": 0,
+        "from": "BVI",
+        "to": "NDLS",
+        "from_station_name": "BORIVALI",
+        "halt_stn": 7,
+        "distance": 1354,
+        "to_station_name": "NEW DELHI",
+        "duration": "15:8",
+        "special_train": false,
+        "train_type": "RAJ",
+        "score": 25,
+        "score_train_type": 5,
+        "score_booking_requency": 0,
+        "frequency_perc": 0,
+        "from_distance_text": "",
+        "to_distance_text": "",
+        "duration_rating": 1,
+        "score_duration": 10,
+        "score_std": 10,
+        "score_user_preferred": 0,
+        "train_date": "30-01-2024",
+        "class_type": [
+          "3A",
+          "2A",
+          "1A"
+        ]
+      }
+
+function Bookingticket({data,currUser}) {
+    console.log("data",data);
+    const navigate = useNavigate();
+    const handlePay = ()=>{
+        navigate('/payment');
+    }
+
+    const handleRemove = async()=>{
+        let newTrains = [];
+        // console.log("old trains",currUser.trains);
+        currUser.trains.filter((i)=>{
+            if(i!=data){
+                newTrains.push(i);
+            }
+        })
+        // console.log("newtrains",newTrains);
+        currUser.trains=newTrains;
+        // console.log("old trains",currUser.trains);
+        await setDoc(doc(fireDB,"users",currUser.id),currUser);
+        window.location.href='/booklist';
+        // console.log(currUser);
+        // console.log(data);
+    }
   return (
     <div>
-        <div className='h-screen'>
-            <div className='w-4/5 mx-auto pt-3'>
-                <h1 className='text-3xl font-bold pb-5'>BookList</h1>
-            </div>
-        
-            <div class="bg-blue-50 border-none dropdown flex flex-col w-3/5 rounded-md ml-40 shadow-md">
+        <div className='h-full p-2'>
+            <div class="bg-blue-50 border-none dropdown flex flex-col w-4/6 rounded-md ml-40 shadow-md">
                 <button class="btn outline-none rounded-md flex justify-between items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <div className='flex gap-2'>
                                 <div className='bg-blue-100 py-1 px-3 rounded-full'>1</div>
-                                <div className='bg-blue-100 py-1 px-3 rounded-full'>FROM : SURAT</div>
-                                <div className='bg-blue-100 py-1 px-3 rounded-full'>TO : AHMEDABAD</div>
-                                <div className='bg-blue-100 py-1 px-3 rounded-full'>DATE : 25/01/2024</div>
-                                <div className='bg-blue-100 py-1 px-3 rounded-full'>TRAIN : 20901</div>
+                                <div className='bg-blue-100 py-1 px-3 rounded-full'>FROM : {data.from_station_name}</div>
+                                <div className='bg-blue-100 py-1 px-3 rounded-full'>TO : {data.to_station_name}</div>
+                                <div className='bg-blue-100 py-1 px-3 rounded-full'>DATE : {data.train_date}</div>
+                                <div className='bg-blue-100 py-1 px-3 rounded-full'>TRAIN : {data.train_number}</div>
                                 <div className='bg-blue-100 py-1 px-3 rounded-full'>Paid</div>
                     </div>
                     <div><button className='dropdown-toggle'></button></div>
@@ -24,42 +91,42 @@ function Bookingticket() {
                     <tr>
                         <td className='col-8'>Train Name</td>
                         <td className=''>:</td>
-                        <td className=''>Thunder Arrow Express</td>
+                        <td className=''>{data.train_name}</td>
                     </tr>
                     <tr>
                         <td>From</td>
                         <td>:</td>
-                        <td>SURAT</td>
+                        <td>{data.from_station_name}</td>
                     </tr>
                     <tr>
                         <td>To</td>
                         <td>:</td>
-                        <td>AHMEDABAD</td>
+                        <td>{data.to_station_name}</td>
                     </tr>
                     <tr>
-                        <td>Categoty</td>
+                        <td>Distance</td>
                         <td>:</td>
-                        <td>GENERAL</td>
+                        <td>{data.distance} km</td>
                     </tr>
                     <tr>
                         <td>Date</td>
                         <td>:</td>
-                        <td>25-01-2024</td>
+                        <td>{data.train_date}</td>
                     </tr>
                     <tr>
                         <td>All Classes</td>
                         <td>:</td>
-                        <td>All Classes</td>
+                        <td>{data.class_type}</td>
                     </tr>
                     <tr>
                         <td>TrainNumber</td>
                         <td>:</td>
-                        <td>19011</td>
+                        <td>{data.train_number}</td>
                     </tr>
                     <tr>
                         <td>AcChairCar</td>
                         <td>:</td>
-                        <td>Yes</td>
+                        <td>{data.class_type[0]}</td>
                     </tr>
                     <tr>
                         <td>AC3Tier</td>
@@ -79,11 +146,11 @@ function Bookingticket() {
                     <tr>
                         <td>Price</td>
                         <td>:</td>
-                        <td>100Rs.</td>
+                        <td>{data.score*data.score_duration}</td>
                     </tr>
                     <div className='gap-3 py-2 flex'> 
-                        <button className='btn bg-blue-900 hover:bg-blue-950 text-white px-3'>PAY NOW</button>
-                        <button className='btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white'>REMOVE ITEM--</button>
+                        <button className='btn bg-blue-900 hover:bg-blue-950 text-white px-3' onClick={handlePay}>PAY NOW</button>
+                        <button className='btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white' onClick={handleRemove}>REMOVE ITEM--</button>
                     </div>
                 </table>
                 

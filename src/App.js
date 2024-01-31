@@ -13,6 +13,7 @@ import MyState from './context/MyState';
 import SearchUsingTrie from './components/search/SearchUsingTrie';
 import Ticketdetail from './components/ticketdetail/Ticketdetail';
 import Search from './components/search/Search';
+import Bookingticket from './components/ticketdetail/Bookingticket';
 
 function App() {
   return (
@@ -20,8 +21,18 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={<Home/>}/>
-          <Route path='/search' element={<Search/>}/>
-          <Route path='/ticket' element={<Ticketdetail/>}/>
+          {/* <Route path='/booking' element={<Bookingticket/>}/> */}
+          <Route path='/booklist' element={
+            <ProtectedRoute>
+              <Booklist/>
+            </ProtectedRoute>
+          }/>
+          <Route path='/search' element={
+            <ProtectedRoute>
+              <Search/>
+            </ProtectedRoute>
+          }/>
+          {/* <Route path='/ticket' element={<Ticketdetail/>}/> */}
           <Route path='/signup' element={<Signup/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/profile' element={

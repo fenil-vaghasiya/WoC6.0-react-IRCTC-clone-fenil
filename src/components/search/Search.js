@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { data } from './stations';
 import Ticketdetail from '../ticketdetail/Ticketdetail';
 import { Station } from './Station';
+import { CgArrowsExchangeAltV } from "react-icons/cg";
+import ResultTickets from '../ticketdetail/ResultTickets';
 
 const url = 'https://irctc1.p.rapidapi.com/api/v3/trainBetweenStations?fromStationCode=BVI&toStationCode=NDLS&dateOfJourney=2024-01-30';
 
@@ -92,7 +94,7 @@ function Search() {
                     </div>
                 </div>
                 <div className='flex justify-center items-center w-full h-full py-3'>
-                    <button className='btn bg-blue-900 text-white hover:bg-blue-950 px-4' onClick={change}>Change</button>
+                    <button className='btn bg-blue-900 text-white hover:bg-blue-950 text-3xl' onClick={change}><CgArrowsExchangeAltV /></button>
                 </div>
                 <div className='flex flex-col item-start w-1/3'>
                     <label htmlFor="" className='text-xl pb-2'>To :</label>
@@ -151,7 +153,7 @@ function Search() {
         </form>
         </div>
         <div>
-            {
+            {/* {
                 
                 Object.keys(Station.data).forEach((train)=>{
                     return(
@@ -161,7 +163,8 @@ function Search() {
                     )
                 })
 
-            }
+            } */}
+            <ResultTickets/>
         </div>
     </div>
   )

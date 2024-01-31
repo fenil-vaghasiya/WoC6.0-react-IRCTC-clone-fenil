@@ -35,6 +35,7 @@ function Signup() {
                 dob:"",
                 gender:"",
                 state:"",
+                trains:[],
                 uid:users.user.uid,
                 email:users.user.email,
                 time:Timestamp.now()
