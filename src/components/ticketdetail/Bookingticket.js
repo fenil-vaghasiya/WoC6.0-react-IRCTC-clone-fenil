@@ -2,6 +2,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { fireDB } from '../../firebase/FirebaseConfig';
+import { toast } from 'react-toastify';
 
 const data1 = {
         "train_number": "12951",
@@ -49,28 +50,29 @@ const data1 = {
         ]
       }
 
-function Bookingticket({data,currUser}) {
-    console.log("data",data);
+function Bookingticket({data,currUser,i}) {
+    
     const navigate = useNavigate();
+
     const handlePay = ()=>{
-        navigate('/payment');
+        console.log("data",data);
+        navigate('/payment',{state:{data:data}});
     }
 
-    const handleRemove = async()=>{
+    const handleRemove = async(e)=>{
+        e.preventDefault();
         let newTrains = [];
-        // console.log("old trains",currUser.trains);
         currUser.trains.filter((i)=>{
             if(i!=data){
                 newTrains.push(i);
             }
         })
-        // console.log("newtrains",newTrains);
         currUser.trains=newTrains;
-        // console.log("old trains",currUser.trains);
         await setDoc(doc(fireDB,"users",currUser.id),currUser);
-        window.location.href='/booklist';
-        // console.log(currUser);
-        // console.log(data);
+        toast.success("Your Ticketdetails succesfully removed it!")
+        setTimeout(() => {
+            window.location.reload();
+        },800);
     }
   return (
     <div>
@@ -78,12 +80,15 @@ function Bookingticket({data,currUser}) {
             <div class="bg-blue-50 border-none dropdown flex flex-col w-4/6 rounded-md ml-40 shadow-md">
                 <button class="btn outline-none rounded-md flex justify-between items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <div className='flex gap-2'>
-                                <div className='bg-blue-100 py-1 px-3 rounded-full'>1</div>
+                                <div className='bg-blue-100 py-1 px-3 rounded-full'>{i+1}</div>
                                 <div className='bg-blue-100 py-1 px-3 rounded-full'>FROM : {data.from_station_name}</div>
                                 <div className='bg-blue-100 py-1 px-3 rounded-full'>TO : {data.to_station_name}</div>
                                 <div className='bg-blue-100 py-1 px-3 rounded-full'>DATE : {data.train_date}</div>
                                 <div className='bg-blue-100 py-1 px-3 rounded-full'>TRAIN : {data.train_number}</div>
-                                <div className='bg-blue-100 py-1 px-3 rounded-full'>Paid</div>
+                                {
+                                    data.paid==true?
+                                    <div className='bg-green-300 py-1 px-3 rounded-full'>Paid</div>:""
+                                }
                     </div>
                     <div><button className='dropdown-toggle'></button></div>
                 </button>
@@ -149,7 +154,10 @@ function Bookingticket({data,currUser}) {
                         <td>{data.score*data.score_duration}</td>
                     </tr>
                     <div className='gap-3 py-2 flex'> 
-                        <button className='btn bg-blue-900 hover:bg-blue-950 text-white px-3' onClick={handlePay}>PAY NOW</button>
+                        {
+                            data.paid?<button className="btn hover:bg-blue-950 text-white px-3 bg-green-400">PAID</button>
+                            :<button className="btn hover:bg-blue-950 text-white px-3 bg-blue-900" onClick={handlePay}>PAY NOW</button>
+                        }
                         <button className='btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white' onClick={handleRemove}>REMOVE ITEM--</button>
                     </div>
                 </table>

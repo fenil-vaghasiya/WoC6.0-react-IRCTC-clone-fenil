@@ -4,6 +4,8 @@ import Ticketdetail from '../ticketdetail/Ticketdetail';
 import { Station } from './Station';
 import { CgArrowsExchangeAltV } from "react-icons/cg";
 import ResultTickets from '../ticketdetail/ResultTickets';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const url = 'https://irctc1.p.rapidapi.com/api/v3/trainBetweenStations?fromStationCode=BVI&toStationCode=NDLS&dateOfJourney=2024-01-30';
 
@@ -44,25 +46,39 @@ function Search() {
     // const [formdata,setFormdata] = useState("");
     const [trains,setTrains] = useState([]);
 
-    // const fetchData = async()=>{ 
-    //     try {
-    //       const response = await fetch(url, options);
-    //       const result = await response.text();
-    //       console.log(result);
-    //     } catch (error) {
-    //       console.error(error);
-    //     }
-    //   }
+    const fetchData = async()=>{ 
+        try {
+          const response = await fetch(url, options);
+          const result = await response.text();
+          console.log(result);
+        } catch (error) {
+          console.error(error);
+        }
+      }
     
     
-    
-    const handleSearch = async()=>{
-        const res = await fetch(`https://irctc1.p.rapidapi.com/api/v3/trainBetweenStations?fromStationCode=${fcode}&toStationCode=${dcode}&dateOfJourney=${date}`,options);
-        const finaldata = await res.json();
-        console.log("fdata",finaldata);
-        setTrains(finaldata);
+    const navigate = useNavigate();
+    const handleSearch = async(e)=>{
+        try {
+            e.preventDefault();
+            const res = await fetch(
+              `https://irctc1.p.rapidapi.com/api/v3/trainBetweenStations?fromStationCode=${fcode}&toStationCode=${dcode}&dateOfJourney=${date}`,
+              options
+            );
+        
+            if (!res.ok) {
+              throw new Error(`Failed to fetch data. Status: ${res.status}`);
+            }
+        
+            const finaldata = await res.json();
+            console.log("fdata", finaldata);
+            setTrains(finaldata);
+            navigate('/resultsearch',{state:{trains:trains}})
+          } catch (error) {
+            toast.error('Error during API request:', error.message);
+          }
     }
-    console.log("station",Station.data[0]);
+    // console.log("station",Station.data[0]);
     // useEffect(()=>{
     //     handleSearch();
     //   },[handleSearch]);
@@ -128,21 +144,21 @@ function Search() {
                     <div className='w-1/3 flex flex-col border-2 border-blue-900 rounded-md p-2 shadow-2xl'>
                         <label htmlFor="state" className='font-bold text-xl'>All Classes</label>
                         <select name="allclass" value={allclass} onChange={(e)=>setAllclass(e.target.value)} className='border-1 border-gray-500 p-3 rounded-md outline-none'>
-                            <option value="All Classes" selected>All Classes</option>
-                            <option value="2S">Second Sitting (2S)</option>
-                            <option value="CC">AC Chair Car (CC)</option>
-                            <option value="EC">Exec. Chair Car (EC)</option>
+                            <option value="All Classes" name="allclass" selected>All Classes</option>
+                            <option value="2S" name="allclass" >Second Sitting (2S)</option>
+                            <option value="CC" name="allclass" >AC Chair Car (CC)</option>
+                            <option value="EC" name="allclass" >Exec. Chair Car (EC)</option>
                         </select>
                     </div>
                     <div className='w-1/3 flex flex-col border-2 border-blue-900 rounded-md p-2'>
                         <label htmlFor="category" className='font-bold text-xl'>Categories</label>
                         <select name="category" value={category} onChange={(e)=>setCategory(e.target.value)} className='border-1 border-gray-500 p-3 rounded-md outline-none'>
-                            <option value="GENERAL">GENERAL</option>
-                            <option value="LADIES">LADIES</option>
-                            <option value="LOWER">LOWER BIRTH/SR.CITIZEN</option>
-                            <option value="PERSON">PERSON WITH DISABILITY</option>
-                            <option value="DUTY">DUTY PASS</option>
-                            <option value="TATKAL">TATKAL</option>
+                            <option value="GENERAL" name="category">GENERAL</option>
+                            <option value="LADIES" name="category">LADIES</option>
+                            <option value="LOWER" name="category">LOWER BIRTH/SR.CITIZEN</option>
+                            <option value="PERSON" name="category">PERSON WITH DISABILITY</option>
+                            <option value="DUTY" name="category">DUTY PASS</option>
+                            <option value="TATKAL" name="category">TATKAL</option>
                         </select>
                     </div>
                 </div>

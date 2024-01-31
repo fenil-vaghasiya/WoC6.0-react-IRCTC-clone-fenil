@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Ticketdetail from './Ticketdetail'
 import { Station } from '../search/Station'
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { auth, fireDB } from '../../firebase/FirebaseConfig';
+import myContext from '../../context/myContext';
 
 const ticket = {
     "status": true,
@@ -130,33 +131,15 @@ const ticket = {
     ]
   }
 
-function ResultTickets() {
-    function GetCurrentUser(){
-        const [user,setUser] = useState('');
-        const userCollectionRef = collection(fireDB,"users");
-
-        useEffect(()=>{
-            auth.onAuthStateChanged((userlogged)=>{
-                if(userlogged){
-                    const getUsers =async()=>{
-                        const q = query(collection(fireDB,"users"),where("uid","==",userlogged.uid));
-                        // console.log("this is profile run",q);
-                        const data = await getDocs(q);
-                        setUser(data.docs.map((doc)=>({...doc.data(),id:doc.id})));
-                    }
-                    getUsers();
-                }else{
-                    setUser(null);
-                }
-            })
-        },[])
-        return user;
-    }
-
-    const loggeduser = GetCurrentUser();
-    const currUser = loggeduser[0];
-    // console.log(currUser);
-
+function ResultTickets({trains}) {
+  const context = useContext(myContext);
+  const {GetUser} = context;
+  const user = JSON.parse(localStorage.getItem('user'));
+  let currUser={};
+  if(user){
+    const loggeduser = GetUser();
+    currUser=loggeduser[0];
+  }
   return (
     <div>
         {

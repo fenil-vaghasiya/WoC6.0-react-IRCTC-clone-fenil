@@ -14,6 +14,7 @@ import SearchUsingTrie from './components/search/SearchUsingTrie';
 import Ticketdetail from './components/ticketdetail/Ticketdetail';
 import Search from './components/search/Search';
 import Bookingticket from './components/ticketdetail/Bookingticket';
+import ResultTickets from './components/ticketdetail/ResultTickets';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           {/* <Route path='/ticket' element={<Ticketdetail/>}/> */}
           <Route path='/signup' element={<Signup/>}/>
           <Route path='/login' element={<Login/>}/>
+          <Route path='/resultsearch' element={<ResultTickets/>}/>
           <Route path='/profile' element={
             <ProtectedRoute>
               <Profile/>

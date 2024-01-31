@@ -1,10 +1,23 @@
-import { faCircleCheck, faMinus, faPlus, faTrainSubway } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import Bookingticket from './Bookingticket';
-import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
-import { auth, fireDB } from '../../firebase/FirebaseConfig';
+import {
+  faCircleCheck,
+  faMinus,
+  faPlus,
+  faTrainSubway,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Bookingticket from "./Bookingticket";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
+import { auth, fireDB } from "../../firebase/FirebaseConfig";
+import { toast } from "react-toastify";
 
 // const ticket = {
 //     "status": true,
@@ -96,132 +109,200 @@ import { auth, fireDB } from '../../firebase/FirebaseConfig';
 //     ]
 //   }
 
-function Ticketdetail({data,currUser}) {
+function Ticketdetail({ data, currUser }) {
+  let days = {
+    Mon: false,
+    Tue: false,
+    Wed: false,
+    Thu: false,
+    Fri: false,
+    Sat: false,
+    Sun: false,
+  };
 
-    let days = {"Mon":false,"Tue":false,"Wed":false,"Thu":false,"Fri":false,"Sat":false,"Sun":false};
+  data.run_days.forEach((day) => {
+    if (day == "Mon") days.Mon = true;
+    if (day == "Tue") days.Tue = true;
+    if (day == "Wed") days.Wed = true;
+    if (day == "Thu") days.Thu = true;
+    if (day == "Fri") days.Fri = true;
+    if (day == "Sat") days.Sat = true;
+    if (day == "Sun") days.Sun = true;
+  });
 
-    data.run_days.forEach((day)=>{
-        if(day=="Mon")  days.Mon=true;
-        if(day=="Tue")  days.Tue=true;
-        if(day=="Wed")  days.Wed=true;
-        if(day=="Thu")  days.Thu=true;
-        if(day=="Fri")  days.Fri=true;
-        if(day=="Sat")  days.Sat=true;
-        if(day=="Sun")  days.Sun=true;
+  const navigate = useNavigate();
+
+  const handleBook = async (e) => {
+    // e.preventDefault();
+    if(currUser.trains.some((i)=>i.train_number === data.train_number)){
+          toast("Your traindetails already added in booklist!");
+    }else{
+      data.booked = true;
+      data.paid = false;
+      currUser?.trains.push(data);
+      await setDoc(doc(fireDB, "users", currUser.id), currUser);
+      toast.success("Your traindetails succesfully added in booklist!");
+    }
+  };
+
+  const handlePaid = async (e) => {
+    e.preventDefault();
+    if(currUser.trains.some((i)=>i.train_number === data.train_number && i.paid === true)){
+      toast("Your ticket is already booked!");
+    }else{
+      data.booked = true;
+      data.paid = false;
+      currUser?.trains.push(data);
+      await setDoc(doc(fireDB, "users", currUser.id), currUser);
+      navigate("/payment", { state: { data: data, currUser: currUser } });
+    }
+  };
+
+  const removeBook = async () => {
+    let newTrains = [];
+    console.log("old trains", currUser.trains);
+    currUser.trains.filter((i) => {
+      if (i != data) {
+        newTrains.push(i);
+      }
     });
-
-    const navigate = useNavigate();
-    // function GetCurrentUser(){
-    //     const [user,setUser] = useState('');
-    //     const userCollectionRef = collection(fireDB,"users");
-
-    //     useEffect(()=>{
-    //         auth.onAuthStateChanged((userlogged)=>{
-    //             if(userlogged){
-    //                 const getUsers =async()=>{
-    //                     const q = query(collection(fireDB,"users"),where("uid","==",userlogged.uid));
-    //                     // console.log("this is profile run",q);
-    //                     const data = await getDocs(q);
-    //                     setUser(data.docs.map((doc)=>({...doc.data(),id:doc.id})));
-    //                 }
-    //                 getUsers();
-    //             }else{
-    //                 setUser(null);
-    //             }
-    //         })
-    //     },[])
-    //     return user;
-    // }
-
-    // const loggeduser = GetCurrentUser();
-    // const currUser = loggeduser[0];
-    // console.log("result",currUser);
-
-    
-    const handleBook = async()=>{
-        data.booked=true;
-        currUser.trains.push(data);
-        await setDoc(doc(fireDB,"users",currUser.id),currUser);
-        console.log(currUser);
-        window.location.href='/';
-        // navigate('/booklist',{state:{currUser:currUser}});
-    }
-
-    const handlePaid = async()=>{
-        // await setDoc(doc(fireDB,"users",currUser.id),currUser);
-        // console.log("pay in",data);
-        navigate('/payment',{state:{data:data,currUser:currUser}});
-    }
-
-    const removeBook = async()=>{
-        let newTrains = [];
-        console.log("old trains",currUser.trains);
-        currUser.trains.filter((i)=>{
-            if(i!=data){
-                newTrains.push(i);
-            }
-        })
-        console.log("newtrains",newTrains);
-        // currUser.trains=newTrains;
-        console.log("old trains",currUser.trains);
-        // await setDoc(doc(fireDB,"users",currUser.id),currUser);
-        // window.location.href='/booklist';
-    }
+    console.log("newtrains", newTrains);
+    // currUser.trains=newTrains;
+    console.log("old trains", currUser.trains);
+    await setDoc(doc(fireDB,"users",currUser.id),currUser);
+    // window.location.href='/booklist';
+  };
+  // console.log(currUser);
   return (
     <div>
-        <div className='py-4'>
-            <div className='h-1/3 bg-cyan-100 w-4/5 mx-auto rounded-lg shadow-md p-3'>
-                <div className='h-1/4 flex justify-between items-center p-2 '>
-                    <div className='font-bold w-1/5'>{data.train_name}</div>
-                    <div className='text-center text-blue-900'>
-                        <p className='font-bold'>Runs on:</p>
-                        <span className={`px-3 cursor-pointer font-semibold ${days.Mon?'text-blue-950':'text-gray-400'}`} title='Sun'>M</span>
-                        <span className={`px-3 cursor-pointer font-semibold ${days.Tue?'text-blue-950':'text-gray-400'}`} title='Tue'>T</span>
-                        <span className={`px-3 cursor-pointer font-semibold ${days.Wed?'text-blue-950':'text-gray-400'}`} title='Wed'>W</span>
-                        <span className={`px-3 cursor-pointer font-semibold ${days.Thu?'text-blue-950':'text-gray-400'}`} title='Thu'>T</span>
-                        <span className={`px-3 cursor-pointer font-semibold ${days.Fri?'text-blue-950':'text-gray-400'}`} title='Fri'>F</span>
-                        <span className={`px-3 cursor-pointer font-semibold ${days.Sat?'text-blue-950':'text-gray-400'}`} title='Sat'>S</span>
-                        <span className={`px-3 cursor-pointer font-semibold ${days.Sun?'text-blue-950':'text-gray-400'}`} title='Sun'>S</span>
-                    </div>
-                    <div><button className='btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white'>TRAIN SCHEDULE</button></div>
-                </div>
-                <div className='h-1/4 flex justify-between items-center p-2 text-gray-400 font-semibold'>
-                    <div className=''>{data.to_sta} | {data.train_src} | {data.train_date}</div>
-                    <div className='text-center ml-20'>
-                        <p>{data.duration}</p>
-                    </div>
-                    <div>{data.to_std} | {data.train_dstn} | {data.train_date}</div>
-                </div>
-                <div className='h-1/4 flex items-center gap-3 p-2'>
-                    <div>Discount On</div>
-                    <div className='gap-3 flex'>
-                        {data.class_type?.map((item)=>{
-                            return(
-                                <button className='btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white'>{item}</button>
-                            )
-                        })}
-                        {/* <button className='btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white'>ACCC</button> */}
-                    </div>
-                </div>
-                <div className='h-1/4 flex items-center p-2'>
-                    <div className='flex gap-3'>
-                        {
-                            data.booked==true?
-                            <button className='btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white font-semibold flex justify-center items-center gap-2' onClick={removeBook}>REMOVE FROM BOOKLIST <FontAwesomeIcon icon={faMinus} /></button>:
-                            <button className='btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white font-semibold flex justify-center items-center gap-2' onClick={handleBook}>ADD TO BOOKLIST <FontAwesomeIcon icon={faPlus} /></button>
-                        }
-                        {
-                            data.paid==true?
-                            <button className='btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white font-semibold flex justify-center items-center gap-2 cursor-none'>BOOKED  <FontAwesomeIcon icon={faCircleCheck} /></button>:
-
-                            <button className='btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white font-semibold flex justify-center items-center gap-2' onClick={handlePaid}>BOOK  <FontAwesomeIcon icon={faTrainSubway} /></button>
-                        }
-                    </div>
-                </div>
+      <div className="py-4">
+        <div className="h-1/3 bg-cyan-100 w-4/5 mx-auto rounded-lg shadow-md p-3">
+          <div className="h-1/4 flex justify-between items-center p-2 ">
+            <div className="font-bold w-1/5">{data.train_name}</div>
+            <div className="text-center text-blue-900">
+              <p className="font-bold">Runs on:</p>
+              <span
+                className={`px-3 cursor-pointer font-semibold ${
+                  days.Mon ? "text-blue-950" : "text-gray-400"
+                }`}
+                title="Sun"
+              >
+                M
+              </span>
+              <span
+                className={`px-3 cursor-pointer font-semibold ${
+                  days.Tue ? "text-blue-950" : "text-gray-400"
+                }`}
+                title="Tue"
+              >
+                T
+              </span>
+              <span
+                className={`px-3 cursor-pointer font-semibold ${
+                  days.Wed ? "text-blue-950" : "text-gray-400"
+                }`}
+                title="Wed"
+              >
+                W
+              </span>
+              <span
+                className={`px-3 cursor-pointer font-semibold ${
+                  days.Thu ? "text-blue-950" : "text-gray-400"
+                }`}
+                title="Thu"
+              >
+                T
+              </span>
+              <span
+                className={`px-3 cursor-pointer font-semibold ${
+                  days.Fri ? "text-blue-950" : "text-gray-400"
+                }`}
+                title="Fri"
+              >
+                F
+              </span>
+              <span
+                className={`px-3 cursor-pointer font-semibold ${
+                  days.Sat ? "text-blue-950" : "text-gray-400"
+                }`}
+                title="Sat"
+              >
+                S
+              </span>
+              <span
+                className={`px-3 cursor-pointer font-semibold ${
+                  days.Sun ? "text-blue-950" : "text-gray-400"
+                }`}
+                title="Sun"
+              >
+                S
+              </span>
             </div>
+            <div>
+              <button className="btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white">
+                TRAIN SCHEDULE
+              </button>
+            </div>
+          </div>
+          <div className="h-1/4 flex justify-between items-center p-2 text-gray-400 font-semibold">
+            <div className="">
+              {data.to_sta} | {data.train_src} | {data.train_date}
+            </div>
+            <div className="text-center ml-20">
+              <p>{data.duration}</p>
+            </div>
+            <div>
+              {data.to_std} | {data.train_dstn} | {data.train_date}
+            </div>
+          </div>
+          <div className="h-1/4 flex items-center gap-3 p-2">
+            <div>Discount On</div>
+            <div className="gap-3 flex">
+              {data.class_type?.map((item) => {
+                return (
+                  <button className="btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white">
+                    {item}
+                  </button>
+                );
+              })}
+              {/* <button className='btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white'>ACCC</button> */}
+            </div>
+          </div>
+          <div className="h-1/4 flex items-center p-2">
+            <div className="flex gap-3">
+              {data.booked == true ? (
+                <button
+                  className="btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white font-semibold flex justify-center items-center gap-2"
+                  onClick={removeBook}
+                >
+                  REMOVE FROM BOOKLIST <FontAwesomeIcon icon={faMinus} />
+                </button>
+              ) : (
+                <button
+                  className="btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white font-semibold flex justify-center items-center gap-2"
+                  onClick={handleBook}
+                >
+                  ADD TO BOOKLIST <FontAwesomeIcon icon={faPlus} />
+                </button>
+              )}
+              {data.paid == true ? (
+                <button className="btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white font-semibold flex justify-center items-center gap-2 cursor-none">
+                  BOOKED <FontAwesomeIcon icon={faCircleCheck} />
+                </button>
+              ) : (
+                <button
+                  className="btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white font-semibold flex justify-center items-center gap-2"
+                  onClick={handlePaid}
+                >
+                  BOOK <FontAwesomeIcon icon={faTrainSubway} />
+                </button>
+              )}
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Ticketdetail
+export default Ticketdetail;

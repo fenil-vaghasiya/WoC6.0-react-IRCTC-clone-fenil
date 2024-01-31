@@ -6,7 +6,7 @@ import IntroSection from '../../components/introSection/IntroSection'
 import SearchUsingTrie from '../../components/search/SearchUsingTrie'
 
 function Home() {
-
+  
   let [responseData,setResponseData] = useState('');
 
   const fetchData = async()=>{
