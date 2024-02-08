@@ -60,21 +60,19 @@ function Search() {
     
     const navigate = useNavigate();
 
-    const context = useContext(myContext);
-    const {GetUser} = context;
-    const loggeduser = GetUser();
-    const currUser = loggeduser[0];
+    // const context = useContext(myContext);
+    // const {GetUser} = context;
+    // const loggeduser = GetUser();
+    // const currUser = loggeduser[0];
+    const user = JSON.parse(localStorage.getItem('user'));
+    
     const handleSearch = async(e)=>{
         e.preventDefault();
-        if(!currUser){
-            navigate('/login');
-            return;
-        }
-        if(fcode === "" || dcode === "" || date === ""){
+        if(!user)   navigate('/login');
+        else if(fcode === "" || dcode === "" || date === ""){
             toast("All the fields are required!");
         }else{
             try {
-                
                 const res = await fetch(
                   `https://irctc1.p.rapidapi.com/api/v3/trainBetweenStations?fromStationCode=${fcode}&toStationCode=${dcode}&dateOfJourney=${date}`,
                   options
