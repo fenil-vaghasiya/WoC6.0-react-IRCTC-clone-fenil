@@ -176,13 +176,13 @@ function Ticketdetail({ data, currUser }) {
   return (
     <div>
       <div className="py-4">
-        <div className="h-1/3 bg-cyan-100 w-4/5 mx-auto rounded-lg shadow-md p-3">
-          <div className="h-1/4 flex justify-between items-center p-2 ">
-            <div className="font-bold w-1/5">{data.train_name}</div>
+        <div className="xl:h-1/3 bg-cyan-100 w-4/5 mx-auto rounded-lg shadow-md p-3">
+          <div className="xl:h-1/4 xl:flex justify-between items-center p-2 ">
+            <div className="font-bold xl:w-1/5 text-center shadow-sm shadow-gray-300">{data.train_name}</div>
             <div className="text-center text-blue-900">
               <p className="font-bold">Runs on:</p>
               <span
-                className={`px-3 cursor-pointer font-semibold ${
+                className={`px-2 cursor-pointer font-semibold ${
                   days.Mon ? "text-blue-950" : "text-gray-400"
                 }`}
                 title="Sun"
@@ -198,7 +198,7 @@ function Ticketdetail({ data, currUser }) {
                 T
               </span>
               <span
-                className={`px-3 cursor-pointer font-semibold ${
+                className={`px-2 cursor-pointer font-semibold ${
                   days.Wed ? "text-blue-950" : "text-gray-400"
                 }`}
                 title="Wed"
@@ -214,7 +214,7 @@ function Ticketdetail({ data, currUser }) {
                 T
               </span>
               <span
-                className={`px-3 cursor-pointer font-semibold ${
+                className={`px-2 cursor-pointer font-semibold ${
                   days.Fri ? "text-blue-950" : "text-gray-400"
                 }`}
                 title="Fri"
@@ -230,7 +230,7 @@ function Ticketdetail({ data, currUser }) {
                 S
               </span>
               <span
-                className={`px-3 cursor-pointer font-semibold ${
+                className={`px-2 cursor-pointer font-semibold ${
                   days.Sun ? "text-blue-950" : "text-gray-400"
                 }`}
                 title="Sun"
@@ -238,24 +238,24 @@ function Ticketdetail({ data, currUser }) {
                 S
               </span>
             </div>
-            <div>
-              <button className="btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white">
+            <div className="text-center">
+              <button className="btn border-1 text-blue-900 border-blue-900 hover:bg-blue-950 hover:text-white my-2">
                 TRAIN SCHEDULE
               </button>
             </div>
           </div>
-          <div className="h-1/4 flex justify-between items-center p-2 text-gray-400 font-semibold">
+          <div className="xl:h-1/4 xl:flex justify-between text-center items-center p-2 text-gray-400 font-semibold">
             <div className="">
               {data.to_sta} | {data.train_src} | {data.train_date}
             </div>
-            <div className="text-center ml-20">
+            <div className="text-center xl:ml-20">
               <p>{data.duration}</p>
             </div>
             <div>
               {data.to_std} | {data.train_dstn} | {data.train_date}
             </div>
           </div>
-          <div className="h-1/4 flex items-center gap-3 p-2">
+          <div className="h-1/4 xl:flex items-center gap-3 p-2">
             <div>Discount On</div>
             <div className="gap-3 flex">
               {data.class_type?.map((item) => {

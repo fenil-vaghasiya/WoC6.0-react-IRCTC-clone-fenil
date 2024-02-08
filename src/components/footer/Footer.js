@@ -26,7 +26,7 @@ function Footer() {
                         <h1 className='font-bold pb-1 mt-1'>WINTER OF CODE</h1> 
                     </div>
                     <p className='xl:w-1/2 '> 
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. In, consequuntur. 
+                        Irctc-clone developed using reactjs, tailwind css, firebase and irctc rapid api.
                     </p>
                 </div>
                 <div className='w-1/2 flex flex-col m-2'>
