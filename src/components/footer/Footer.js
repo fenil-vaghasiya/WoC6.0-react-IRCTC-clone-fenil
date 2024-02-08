@@ -8,32 +8,32 @@ function Footer() {
   return (
     <div className='h-80 flex'>
         <div className='bg-cyan-100 w-full divide-y divide-neutral-300'>
-            <div className='w-full h-1/5 flex items-center '>
-                <div className='w-1/2 pl-5 font-bold text-lg'>
+            <div className='xl:w-full xl:h-1/5 xl:flex xl:items-center p-2'>
+                <div className='xl:w-1/2 xl:pl-5 font-bold md:text-md xl:text-lg my-1'>
                     <h1>Get connected with us on social networks</h1>
                 </div>
-                <div className='w-1/2 flex justify-end gap-4 text-2xl pr-5'>
-                    <button><FaYoutube/></button>
-                    <button><FaInstagram/></button>
-                    <button><FaLinkedin/></button>
-                    <button><IoLogoGithub/></button>
+                <div className='xl:w-1/2 flex xl:justify-end gap-4 text-2xl pr-5 my-1'>
+                    <a href="https://www.youtube.com/@fenilvaghasiya1860"><FaYoutube/></a>
+                    <a href="https://www.instagram.com/_fenil.123"><FaInstagram/></a>
+                    <a href="https://www.linkedin.com/in/fenil-vaghasiya-b47063230"><FaLinkedin/></a>
+                    <a href="https://github.com/fenil-vaghasiya"><IoLogoGithub/></a>
                 </div>
             </div>
-            <div className='h-3/5 flex w-5/5 mx-auto pl-96 items-center'>
-                <div className='w-1/2 flex flex-col'>
+            <div className='xl:h-3/5 xl:flex mx-auto xl:pl-96 items-center'>
+                <div className='xl:w-1/2 flex flex-col m-2'>
                     <div className='flex gap-2 items-center mb-2'>
                         <GiCutDiamond />
                         <h1 className='font-bold pb-1 mt-1'>WINTER OF CODE</h1> 
                     </div>
-                    <p className='w-1/2'> 
+                    <p className='xl:w-1/2 '> 
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. In, consequuntur. 
                     </p>
                 </div>
-                <div className='w-1/2 flex flex-col'>
+                <div className='w-1/2 flex flex-col m-2'>
                     <h1 className='font-bold pb-3'>CONTACT</h1>
                     <div className='flex gap-2 items-center mb-2'>
                         <AiFillHome />
-                        <p>GANDHINAGAR,INDIA</p>
+                        <h1>GANDHINAGAR,INDIA</h1>
                     </div>
                     <div className='flex gap-2 items-center mb-2'>
                         <IoMdMail />

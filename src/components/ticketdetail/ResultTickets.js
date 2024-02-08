@@ -143,7 +143,7 @@ function ResultTickets({trains}) {
   return (
     <div>
         {
-            Station.data.map((data)=>{
+            trains?.data?.map((data)=>{
                 return(
                     <Ticketdetail data={data} currUser={currUser}/>
                 )

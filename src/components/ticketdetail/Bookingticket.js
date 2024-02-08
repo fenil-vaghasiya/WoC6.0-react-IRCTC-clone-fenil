@@ -76,15 +76,15 @@ function Bookingticket({data,currUser,i}) {
     }
   return (
     <div>
-        <div className='h-full p-2'>
-            <div class="bg-blue-50 border-none dropdown flex flex-col w-4/6 rounded-md ml-40 shadow-md">
-                <button class="btn outline-none rounded-md flex justify-between items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div className='flex gap-2'>
-                                <div className='bg-blue-100 py-1 px-3 rounded-full'>{i+1}</div>
-                                <div className='bg-blue-100 py-1 px-3 rounded-full'>FROM : {data.from_station_name}</div>
-                                <div className='bg-blue-100 py-1 px-3 rounded-full'>TO : {data.to_station_name}</div>
-                                <div className='bg-blue-100 py-1 px-3 rounded-full'>DATE : {data.train_date}</div>
-                                <div className='bg-blue-100 py-1 px-3 rounded-full'>TRAIN : {data.train_number}</div>
+        <div className='h-full xl:w-full p-2 sm:w-full flex justify-center items-center'>
+            <div class="bg-blue-50 border-none dropdown flex flex-col w-full xl:w-4/6 rounded-md xl:ml-30 shadow-md">
+                <button class="btn outline-none rounded-md xl:flex justify-between items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div className='xl:flex gap-2'>
+                                <div className='bg-blue-100 py-1 px-3 rounded-full my-1'>{i+1}</div>
+                                <div className='bg-blue-100 py-1 px-3 rounded-full my-1'>FROM : {data.from_station_name}</div>
+                                <div className='bg-blue-100 py-1 px-3 rounded-full my-1'>TO : {data.to_station_name}</div>
+                                <div className='bg-blue-100 py-1 px-3 rounded-full my-1'>DATE : {data.train_date}</div>
+                                <div className='bg-blue-100 py-1 px-3 rounded-full my-1'>TRAIN : {data.train_number}</div>
                                 {
                                     data.paid==true?
                                     <div className='bg-green-300 py-1 px-3 rounded-full'>Paid</div>:""
@@ -94,7 +94,7 @@ function Bookingticket({data,currUser,i}) {
                 </button>
                 <table class="dropdown-menu w-full p-3">
                     <tr>
-                        <td className='col-8'>Train Name</td>
+                        <td className='col-5'>Train Name</td>
                         <td className=''>:</td>
                         <td className=''>{data.train_name}</td>
                     </tr>

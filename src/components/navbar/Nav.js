@@ -26,11 +26,11 @@ function Nav() {
   
     return (
     <div>
-        <div className='flex bg-blue-900 text-xl h-20 items-center text-white'>
-            <div className='col-2 pl-5'>
+        <div className='xl:flex bg-blue-900 text-xl h-20 xl:items-center xl:justify-center text-white'>
+            <div className='w-full xl:p-6 mx-3'>
                 <h1 className='font-bold text-2xl font-sans'>{user?currUser?.firstname:"Welcome To IRCTC..."}</h1>
             </div>
-            <div className='col-10 flex justify-end gap-5 pr-7 items-center'>
+            <div className='w-full flex justify-end gap-4 pr-12 items-center'>
                 <a href="/">Home</a>
                 <a href="/booklist">Booklist</a>
                 {user ? "" : <a href='/signup'>Sign In</a>}

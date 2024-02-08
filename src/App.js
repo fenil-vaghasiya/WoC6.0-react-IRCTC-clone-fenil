@@ -36,7 +36,11 @@ function App() {
           {/* <Route path='/ticket' element={<Ticketdetail/>}/> */}
           <Route path='/signup' element={<Signup/>}/>
           <Route path='/login' element={<Login/>}/>
-          <Route path='/resultsearch' element={<ResultTickets/>}/>
+          <Route path='/resultsearch' element={
+            <ProtectedRoute>
+              <ResultTickets/>
+            </ProtectedRoute>
+          }/>
           <Route path='/profile' element={
             <ProtectedRoute>
               <Profile/>

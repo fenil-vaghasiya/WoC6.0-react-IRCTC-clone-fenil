@@ -2,11 +2,11 @@ import React from 'react'
 
 function Services() {
   return (
-    <div>
-        <div className='w-3/5 mx-auto flex flex-col gap-5 my-24'>
-            <div className=' flex'>
-            <div className='col-5 flex flex-col justify-center items-center'><img src="/assets/payfooter1.png" className="w-5/6" alt="" /></div>
-                <div className='col-7 bg-cyan-100 rounded-2xl p-4'>
+    <div className=''>
+        <div className='xl:w-3/5 mx-auto flex flex-col gap-5 my-24'>
+            <div className='xl:flex'>
+                <div className='w-full flex flex-col justify-center items-center my-2'><img src="/assets/payfooter1.png" className="w-5/6" alt="" /></div>
+                <div className='w-full bg-cyan-100 rounded-2xl p-4'>
                     <h1 className='font-bold text-4xl text-center'>Convenience</h1>
                     <div className='my-3'>
                         <h2 className='font-semibold text-lg'>Seamless Transactions:</h2>
@@ -18,8 +18,8 @@ function Services() {
                     </div>
                 </div>
             </div>
-            <div className='flex'>
-                <div className='col-7 bg-cyan-100 rounded-2xl p-4'>
+            <div className='xl:flex'>
+                <div className='w-full bg-cyan-100 rounded-2xl p-4'>
                 <h1 className='font-bold text-4xl text-center'>Security</h1>
                     <div className='my-3'>
                         <h2 className='font-semibold text-lg'>Robust Security Measures:</h2>
@@ -30,11 +30,11 @@ function Services() {
                         <p>Our system employs sophisticated fraud detection and prevention measures to ensure the safety of every transaction.</p>
                     </div>
                 </div>
-                <div className='col-5 flex flex-col justify-center items-center'><img src="/assets/payfooter2.png" className="w-5/6" alt="" /></div>
+                <div className='w-full flex flex-col justify-center items-center my-2'><img src="/assets/payfooter2.png" className="w-5/6" alt="" /></div>
             </div>
-            <div className=' flex'>
-                <div className='col-5 flex flex-col justify-center items-center'><img src="/assets/home3.png" className="w-4/5" alt="" /></div>
-                <div className='col-7 bg-cyan-100 rounded-2xl p-4'>
+            <div className='xl:flex'>
+                <div className='w-full flex flex-col justify-center items-center my-2'><img src="/assets/home3.png" className="w-4/5" alt="" /></div>
+                <div className='w-full bg-cyan-100 rounded-2xl p-4'>
                 <h1 className='font-bold text-4xl text-center'>Customer Support</h1>
                     <div className='my-3'>
                         <h2 className='font-semibold text-lg'>Responsive Support Team:</h2>

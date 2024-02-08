@@ -39,7 +39,17 @@ function MyState(props) {
           },800);
 
       } catch (error) {
-        console.log(error);
+        toast.error(error.code.split("auth/")[1],{
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+      });
+        // console.log(error);
       }
   }
 
@@ -64,7 +74,7 @@ function MyState(props) {
         })
     },[])
     return user;
-}
+  }
 
 // const loggeduser = GetUser();
 // const currUser = loggeduser[0];
@@ -79,7 +89,7 @@ function MyState(props) {
 // }
 
   return (
-    <MyContext.Provider value={{addUser,GetUser}}>
+    <MyContext.Provider value={{users,setUsers,addUser,GetUser}}>
         {props.children}
     </MyContext.Provider>
   )

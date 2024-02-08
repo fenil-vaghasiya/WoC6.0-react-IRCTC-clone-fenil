@@ -87,21 +87,21 @@ function Signup() {
                             type="name" 
                             placeholder='Enter Your name here' 
                             className='outline-none border-4 border-b-black border-none rounded-lg py-2 pl-2'
-                            value={users.firstname}
+                            value={users?.firstname}
                             onChange={(e)=>setUsers({...users,firstname:e.target.value})} />
                     <label htmlFor="email">Email address*</label>
                     <input 
                         type="email" 
                         placeholder='Enter Your Email here' 
                         className='outline-none border-4 border-b-black border-none rounded-lg py-2 pl-2'
-                        value={users.email}
+                        value={users?.email}
                         onChange={(e)=>setUsers({...users,email:e.target.value})} />
                     <label htmlFor="password">Password*</label>
                     <input 
                         type="password" 
                         placeholder='Enter your password here' 
                         className='outline-none border border-b-black rounded-lg py-2 pl-2'
-                        value={users.password}
+                        value={users?.password}
                         onChange={(e)=>setUsers({...users,password:e.target.value})}/>
                     
                 </div>
