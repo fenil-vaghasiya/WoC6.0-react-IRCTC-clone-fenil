@@ -76,7 +76,7 @@ function Signup() {
     <Layout>
     <div className='sign-up'>
         <div className='z-1 h-screen backdrop-blur-[3px] bg-slate-600/30 w-full flex justify-center items-center'>
-            <div className='w-1/3 h-4/6 rounded-3xl backdrop-blur-2xl bg-white/30'>
+            <div className='xl:w-1/3 h-4/6 rounded-3xl backdrop-blur-2xl bg-white/30'>
                 <div className='h-1/4 w-full flex flex-col justify-end items-center text-2xl font-bold'>
                     <div className='rounded-full bg-blue-900 text-white w-7 h-7 text-sm font-bold text-center'><FontAwesomeIcon icon={faLock} /></div>
                     <div>Create A New Account</div>
