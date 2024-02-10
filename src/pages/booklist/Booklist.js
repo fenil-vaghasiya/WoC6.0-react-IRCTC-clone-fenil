@@ -36,7 +36,7 @@ const currUser = loggeduser[0];
 // console.log(currUser);
   return (
     <Layout>
-      <div className='h-auto'>
+      <div className='h-screen'>
           <h1 className='font-semibold text-3xl p-3 w-4/5 text-center mx-auto'>Booklist</h1>
           {
             currUser?.trains?.map((data,i)=>{
