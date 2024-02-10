@@ -13,7 +13,7 @@ function Profile() {
     const loggeduser = GetUser();
     const currUser = loggeduser[0];
 
-    console.log("currUser",currUser);
+    // console.log("currUser",currUser);
     const [formData,setFormData] = useState(
     //     {
     //     firstname:currUser?.firstname || "",
@@ -31,7 +31,7 @@ function Profile() {
     //     time:currUser?.time || Timestamp.now()
     // }
     )
-    console.log("formdata",formData);
+    // console.log("formdata",formData);
     const logout = ()=>{
         localStorage.clear('user');
         window.location.href = '/login';
@@ -39,7 +39,7 @@ function Profile() {
 
     const handleUpdate = async(e)=>{
         e.preventDefault();
-        console.log(formData);
+        // console.log(formData);
         currUser.firstname=formData.firstname;
         currUser.middlename=formData.middlename;
         currUser.lastname=formData.lastname;
@@ -52,7 +52,7 @@ function Profile() {
 
         await setDoc(doc(fireDB,"users",currUser.id),currUser);
         toast.success("Your Profile has been succesfully updated!");
-        console.log("user",currUser);
+        // console.log("user",currUser);
     }
     useEffect(()=>{
         const initializeFormData = () => {

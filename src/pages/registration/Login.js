@@ -19,7 +19,7 @@ function Login() {
         e.preventDefault();
         try {
             const result = await signInWithEmailAndPassword(auth,email,password);
-            console.log(result);
+            // console.log(result);
             toast.success("Login Succesfull!",{
                 position: "top-right",
                 autoClose: 2000,

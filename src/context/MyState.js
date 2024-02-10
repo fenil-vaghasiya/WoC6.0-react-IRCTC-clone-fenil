@@ -59,7 +59,7 @@ function MyState(props) {
 
     useEffect(()=>{
         auth.onAuthStateChanged((userlogged)=>{
-            console.log("true");
+            // console.log("true");
             if(userlogged){
                 const getUsers =async()=>{
                     const q = query(collection(fireDB,"users"),where("uid","==",userlogged.uid));

@@ -55,7 +55,7 @@ function Bookingticket({data,currUser,i}) {
     const navigate = useNavigate();
 
     const handlePay = ()=>{
-        console.log("data",data);
+        // console.log("data",data);
         navigate('/payment',{state:{data:data}});
     }
 

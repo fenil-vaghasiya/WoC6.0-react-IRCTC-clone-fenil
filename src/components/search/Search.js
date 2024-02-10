@@ -10,11 +10,25 @@ import myContext from '../../context/myContext';
 
 const url = 'https://irctc1.p.rapidapi.com/api/v3/trainBetweenStations?fromStationCode=BVI&toStationCode=NDLS&dateOfJourney=2024-01-30';
 
-const options = {
+const options1 = {
 	method: 'GET',
 	headers: {
-		'X-RapidAPI-Key': '661c656607mshdc73dfa0125d674p15a739jsn5c8f3952b239',
-        'X-RapidAPI-Host': 'irctc1.p.rapidapi.com'
+		'X-RapidAPI-Key': 'f4b9ca1f2dmsh642f816e1012b45p1a82f0jsn6201a258721b',
+		'X-RapidAPI-Host': 'irctc1.p.rapidapi.com'
+	}
+};
+const options2 = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '69e78f34f6msh1b62461f1f1de44p1ff618jsnea69afe74bef',
+		'X-RapidAPI-Host': 'irctc1.p.rapidapi.com'
+	}
+};
+const options3 = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '3381645f1cmshec06a90d8dea6a0p1ca80fjsnefc757824250',
+		'X-RapidAPI-Host': 'irctc1.p.rapidapi.com'
 	}
 };
 
@@ -35,7 +49,8 @@ function Search() {
         setDest(val.station);
         setDcode(val.code);
     }
-    const change = ()=>{
+    const change = (e)=>{
+        e.preventDefault();
         const to = dest;
         setDest(from);
         setFrom(to);
@@ -47,15 +62,15 @@ function Search() {
     // const [formdata,setFormdata] = useState("");
     const [trains,setTrains] = useState([]);
 
-    const fetchData = async()=>{ 
-        try {
-          const response = await fetch(url, options);
-          const result = await response.text();
-          console.log(result);
-        } catch (error) {
-          console.error(error);
-        }
-      }
+    // const fetchData = async()=>{ 
+    //     try {
+    //       const response = await fetch(url, options);
+    //       const result = await response.text();
+    //       console.log(result);
+    //     } catch (error) {
+    //       console.error(error);
+    //     }
+    //   }
     
     
     const navigate = useNavigate();
@@ -66,7 +81,7 @@ function Search() {
     // const currUser = loggeduser[0];
     const user = JSON.parse(localStorage.getItem('user'));
     
-    const handleSearch = async(e)=>{
+    const handleSearch1 = async(e)=>{
         e.preventDefault();
         if(!user)   navigate('/login');
         else if(fcode === "" || dcode === "" || date === ""){
@@ -75,7 +90,7 @@ function Search() {
             try {
                 const res = await fetch(
                   `https://irctc1.p.rapidapi.com/api/v3/trainBetweenStations?fromStationCode=${fcode}&toStationCode=${dcode}&dateOfJourney=${date}`,
-                  options
+                  options1
                 );
             
                 if (!res.ok) {
@@ -83,7 +98,59 @@ function Search() {
                 }
             
                 const finaldata = await res.json();
-                console.log("fdata", finaldata);
+                // console.log("fdata", finaldata);
+                setTrains(finaldata);
+                navigate('/',{state:{trains:trains}});
+                toast("If Search button not gives response then click second time!")
+              } catch (error) {
+                toast.error('Error during API request:', error.message);
+              }
+        }
+    }
+    const handleSearch2 = async(e)=>{
+        e.preventDefault();
+        if(!user)   navigate('/login');
+        else if(fcode === "" || dcode === "" || date === ""){
+            toast("All the fields are required!");
+        }else{
+            try {
+                const res = await fetch(
+                  `https://irctc1.p.rapidapi.com/api/v3/trainBetweenStations?fromStationCode=${fcode}&toStationCode=${dcode}&dateOfJourney=${date}`,
+                  options2
+                );
+            
+                if (!res.ok) {
+                  throw new Error(`Failed to fetch data. Status: ${res.status}`);
+                }
+            
+                const finaldata = await res.json();
+                // console.log("fdata", finaldata);
+                setTrains(finaldata);
+                navigate('/',{state:{trains:trains}});
+                toast("If Search button not gives response then click second time!")
+              } catch (error) {
+                toast.error('Error during API request:', error.message);
+              }
+        }
+    }
+    const handleSearch3 = async(e)=>{
+        e.preventDefault();
+        if(!user)   navigate('/login');
+        else if(fcode === "" || dcode === "" || date === ""){
+            toast("All the fields are required!");
+        }else{
+            try {
+                const res = await fetch(
+                  `https://irctc1.p.rapidapi.com/api/v3/trainBetweenStations?fromStationCode=${fcode}&toStationCode=${dcode}&dateOfJourney=${date}`,
+                  options3
+                );
+            
+                if (!res.ok) {
+                  throw new Error(`Failed to fetch data. Status: ${res.status}`);
+                }
+            
+                const finaldata = await res.json();
+                // console.log("fdata", finaldata);
                 setTrains(finaldata);
                 navigate('/',{state:{trains:trains}});
                 toast("If Search button not gives response then click second time!")
@@ -176,8 +243,10 @@ function Search() {
                         </select>
                     </div>
                 </div>
-                <div className='flex justify-center p-3'>
-                    <button onClick={handleSearch} className='btn bg-blue-900 text-white hover:bg-blue-950 px-4'>SEARCH</button>
+                <div className='flex justify-center p-3 gap-2'>
+                    <button onClick={handleSearch1} className='btn bg-blue-900 text-white hover:bg-blue-950 px-3'>SEARCH1</button>
+                    <button onClick={handleSearch2} className='btn bg-blue-900 text-white hover:bg-blue-950 px-3'>SEARCH2</button>
+                    <button onClick={handleSearch3} className='btn bg-blue-900 text-white hover:bg-blue-950 px-3'>SEARCH3</button>
                 </div>
             </div>
         </form>

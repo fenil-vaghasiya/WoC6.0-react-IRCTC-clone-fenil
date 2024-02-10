@@ -52,8 +52,6 @@ function Payment() {
                 toast.error('Train not found in the user\'s trains array.');
             }
         }
-        console.log(currUser);
-        // window.location.href='/';
     }
   return (
     <Layout>

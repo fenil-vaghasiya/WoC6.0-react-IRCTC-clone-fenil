@@ -160,15 +160,15 @@ function Ticketdetail({ data, currUser }) {
 
   const removeBook = async () => {
     let newTrains = [];
-    console.log("old trains", currUser.trains);
+    // console.log("old trains", currUser.trains);
     currUser.trains.filter((i) => {
       if (i != data) {
         newTrains.push(i);
       }
     });
-    console.log("newtrains", newTrains);
+    // console.log("newtrains", newTrains);
     // currUser.trains=newTrains;
-    console.log("old trains", currUser.trains);
+    // console.log("old trains", currUser.trains);
     await setDoc(doc(fireDB,"users",currUser.id),currUser);
     // window.location.href='/booklist';
   };
